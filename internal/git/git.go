@@ -71,8 +71,10 @@ func gitGPGKeyIDCommand(gpgKeyID string, scope models.Scope) error {
 	}
 
 	out, err := cmd.Output()
-	if exitErr, ok := err.(*exec.ExitError); !ok || exitErr.ExitCode() != 5 {
-		return fmt.Errorf("%s: %w", out, err)
+	if err != nil {
+		if exitErr, ok := err.(*exec.ExitError); !ok || exitErr.ExitCode() != 5 {
+			return fmt.Errorf("%s: %w", out, err)
+		}
 	}
 	return nil
 }
